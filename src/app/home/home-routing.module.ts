@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { HomePage } from './home.page';
+import { RouterModule, Routes } from '@angular/router';
+import { HomePage } from './home.page'; // Asegúrate de que la ruta es correcta
 
 const routes: Routes = [
   {
@@ -12,6 +11,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class HomePageRoutingModule {}
