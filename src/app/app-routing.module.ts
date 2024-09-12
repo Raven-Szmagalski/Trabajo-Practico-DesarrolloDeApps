@@ -5,11 +5,7 @@ import { LoginGuard } from './auth/login.guard'; // Importa tu guard
 
 const routes: Routes = [
 
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
+
   {
     path: 'edit',
     loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
@@ -27,8 +23,12 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./registro/registro.module').then(m => m.RegistroPageModule)
-  }
-
+  },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({

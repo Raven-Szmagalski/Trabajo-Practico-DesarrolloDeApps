@@ -1,13 +1,77 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>edit</ion-title>
+    <ion-title>Configuración de Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">edit</ion-title>
+      <ion-title size="large">{{ isEditing ? 'Editar Perfil' : 'Ver Perfil' }}</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input formControlName="name" [readonly]="!isEditing" value="Fernando"></ion-input>
+      <ion-icon name="create" slot="end" (click)="toggleEdit()"></ion-icon>
+      <ion-text color="danger" *ngIf="registerForm.get('name')?.invalid && (registerForm.get('name')?.touched || registerForm.get('name')?.dirty)">
+        <p *ngIf="registerForm.get('name')?.errors?.['required']">Nombre es obligatorio.</p>
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Apellido</ion-label>
+      <ion-input formControlName="surname" [readonly]="!isEditing" value="Gómez"></ion-input>
+      <ion-icon name="create" slot="end" (click)="toggleEdit()"></ion-icon>
+      <ion-text color="danger" *ngIf="registerForm.get('surname')?.invalid && (registerForm.get('surname')?.touched || registerForm.get('surname')?.dirty)">
+        <p *ngIf="registerForm.get('surname')?.errors?.['required']">Apellido es obligatorio.</p>
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">DNI</ion-label>
+      <ion-input formControlName="dni" type="number" [readonly]="!isEditing" value="12345678"></ion-input>
+      <ion-icon name="create" slot="end" (click)="toggleEdit()"></ion-icon>
+      <ion-text color="danger" *ngIf="registerForm.get('dni')?.invalid && (registerForm.get('dni')?.touched || registerForm.get('dni')?.dirty)">
+        <p *ngIf="registerForm.get('dni')?.errors?.['required']">DNI es obligatorio.</p>
+        <p *ngIf="registerForm.get('dni')?.errors?.['pattern']">DNI debe tener 8 dígitos.</p>
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Celular</ion-label>
+      <ion-input formControlName="phone" type="text" placeholder="Ej: 01123456789" [readonly]="!isEditing" value="0112345678"></ion-input>
+      <ion-icon name="create" slot="end" (click)="toggleEdit()"></ion-icon>
+      <ion-text color="danger" *ngIf="registerForm.get('phone')?.invalid && (registerForm.get('phone')?.touched || registerForm.get('phone')?.dirty)">
+        <p *ngIf="registerForm.get('phone')?.errors?.['required']">Celular es obligatorio.</p>
+        <p *ngIf="registerForm.get('phone')?.errors?.['pattern']">Celular debe tener 10 dígitos.</p>
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input formControlName="email" [readonly]="!isEditing" value="ejemplo@correo.com"></ion-input>
+      <ion-icon name="create" slot="end" (click)="toggleEdit()"></ion-icon>
+      <ion-text color="danger" *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)">
+        <p *ngIf="registerForm.get('email')?.errors?.['required']">Email es obligatorio.</p>
+        <p *ngIf="registerForm.get('email')?.errors?.['email']">Email debe ser válido.</p>
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" formControlName="password" [readonly]="!isEditing"></ion-input>
+      <ion-icon name="create" slot="end" (click)="toggleEdit()"></ion-icon>
+      <ion-text color="danger" *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.touched || registerForm.get('password')?.dirty)">
+        <p *ngIf="registerForm.get('password')?.errors?.['required']">Contraseña es obligatoria.</p>
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Confirmar Contraseña</ion-label>
+      <ion-input type="password" formControlName="confirmPassword" [readonly]="!isEditing"></ion-input>
+      <ion-icon name="create" slot="end" (click)="toggleEdit()"></ion-icon>
+      <ion-text color="danger" *ngIf="registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty)">
+        <p *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirmar Contraseña es obligatoria.</p>
+        <p *ngIf="registerForm.errors?.['mismatch']">Las contraseñas no coinciden.</p>
+      </ion-text>
+    </ion-item>
+    <ion-button expand="full" type="submit" [disabled]="registerForm.invalid || !isEditing">Registrar</ion-button>
+  </form>
 </ion-content>

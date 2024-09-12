@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Platform, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -10,30 +10,81 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnDestroy {
   private backButtonSubscription: Subscription | undefined;
+  public notes: any[] = [];
+  public newNoteTitle: string = '';
+  public newNoteDescription: string = '';
+  public editingIndex: number | null = null; // Índice de la nota que se está editando
 
-  constructor(private platform: Platform, private router: Router) {}
+  constructor(
+    private platform: Platform,
+    private router: Router,
+    private navCtrl: NavController
+  ) {
+    // Inicializar notas preexistentes
+    this.notes = [
+      { title: 'Proyecto', description: 'Video Juego "Fosforito2"', date: new Date('2024-09-11 06:11') },
+      { title: 'Comprar', description: 'Papa, cebolla...', date: new Date('2024-09-10 03:44') },
+      { title: 'Limpiar', description: 'Limpiar la oficina', date: new Date('2024-09-09') },
+      { title: 'Veterinario', description: 'Cita para las gatas, Jueves 18pm', date: new Date('2024-09-09') }
+    ];
+  }
 
   ionViewDidEnter() {
-    // Escuchar el evento del botón físico de "Atrás"
     this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10, () => {
-      // Si el usuario está en la pantalla de Home, bloquear el botón de "Atrás"
       if (this.router.url === '/home') {
-        (navigator as any).app.exitApp(); // Usar Type Assertion para evitar el error de TypeScript
+        (navigator as any).app.exitApp();
       }
     });
   }
 
   ionViewWillLeave() {
-    // Cancelar la suscripción para evitar fugas de memoria
     if (this.backButtonSubscription) {
       this.backButtonSubscription.unsubscribe();
     }
   }
 
   ngOnDestroy() {
-    // Cancelar la suscripción al destruir el componente
     if (this.backButtonSubscription) {
       this.backButtonSubscription.unsubscribe();
     }
+  }
+
+  openSettings() {
+    this.navCtrl.navigateForward('/edit');
+  }
+
+  addNote() {
+    if (this.newNoteTitle.trim() && this.newNoteDescription.trim()) {
+      const newNote = {
+        title: this.newNoteTitle,
+        description: this.newNoteDescription,
+        date: new Date(),
+      };
+      this.notes.push(newNote);
+
+      this.newNoteTitle = '';
+      this.newNoteDescription = '';
+    } else {
+      alert('Por favor, completa todos los campos.');
+    }
+  }
+
+  deleteNote(index: number) {
+    this.notes.splice(index, 1);
+  }
+
+  editNote(index: number) {
+    // Inicia la edición de la nota en el índice dado
+    this.editingIndex = index;
+  }
+
+  saveNote(index: number) {
+    // Guarda los cambios de la nota editada y cierra el modo de edición
+    this.editingIndex = null;
+  }
+
+  cancelEdit() {
+    // Cancela la edición
+    this.editingIndex = null;
   }
 }
