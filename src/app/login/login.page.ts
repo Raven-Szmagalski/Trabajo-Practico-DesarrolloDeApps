@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -12,7 +12,12 @@ import { AuthService } from '../auth/auth.service';
 export class LoginPage {
   loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private alertController: AlertController,
+    private authService: AuthService
+  ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -20,17 +25,12 @@ export class LoginPage {
   }
 
   redirectToRegister() {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/registro']);
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.loginForm.invalid) {
-      Swal.fire({
-        title: 'Campos incompletos',
-        text: 'Por favor complete todos los campos correctamente.',
-        icon: 'warning',
-        confirmButtonText: 'Ok'
-      });
+      this.showErrors();
       return;
     }
 
@@ -41,13 +41,50 @@ export class LoginPage {
       if (isAuthenticated) {
         this.router.navigate(['/home']);
       } else {
-        Swal.fire({
-          title: 'Error de autenticación',
-          text: 'El correo electrónico o la contraseña son incorrectos.',
-          icon: 'error',
-          confirmButtonText: 'Ok'
-        });
+        this.showAuthError();
       }
     });
+  }
+
+  async showErrors() {
+    const controls = this.loginForm.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        const control = controls[name];
+        if (control.errors?.['required']) {
+          const alert = await this.alertController.create({
+            header: 'Campo requerido',
+            message: `${this.getFieldLabel(name)} es obligatorio.`,
+            buttons: ['Ok']
+          });
+          await alert.present();
+        } else if (control.errors?.['email']) {
+          const alert = await this.alertController.create({
+            header: 'Error en el campo',
+            message: `${this.getFieldLabel(name)} debe ser un correo electrónico válido.`,
+            buttons: ['Ok']
+          });
+          await alert.present();
+        }
+        break; 
+      }
+    }
+  }
+
+  async showAuthError() {
+    const alert = await this.alertController.create({
+      header: 'Error de autenticación',
+      message: 'El correo electrónico o la contraseña son incorrectos.',
+      buttons: ['Ok']
+    });
+    await alert.present();
+  }
+
+  getFieldLabel(name: string): string {
+    const labels: { [key: string]: string } = {
+      email: 'Email',
+      password: 'Contraseña'
+    };
+    return labels[name] || name;
   }
 }

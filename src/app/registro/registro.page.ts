@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
-import { AuthService } from '../auth/auth.service'; // Asegúrate de que AuthService esté correctamente importado
+import { AlertController } from '@ionic/angular'; // Importa AlertController
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-registro',
@@ -11,13 +11,17 @@ import { AuthService } from '../auth/auth.service'; // Asegúrate de que AuthSer
 })
 export class RegistroPage {
   registerForm: FormGroup;
+  
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  constructor(
+    private formBuilder: FormBuilder, 
+    private router: Router,
+    private alertController: AlertController,
+    // Inyecta AlertController
+  ) {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      dni: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]], // Validación para 8 dígitos
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], // Validación para 10 dígitos
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
@@ -29,53 +33,50 @@ export class RegistroPage {
       ? null : { mismatch: true };
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.registerForm.invalid) {
       this.showErrors();
       return;
     }
 
-    // Aquí puedes realizar cualquier acción adicional si es necesario,
-    // pero no guardaremos nada en localStorage ni en ningún otro lugar.
-
-    Swal.fire({
-      title: 'Registro exitoso',
-      text: '¡Te has registrado exitosamente!',
-      icon: 'success',
-      confirmButtonText: 'Ok'
-    }).then(() => {
-      this.router.navigate(['/login']); // Redirige al usuario a la página de inicio de sesión
+    const alert = await this.alertController.create({
+      header: 'Registro exitoso',
+      message: '¡La cuenta se creo Exitosamente!',
+      buttons: ['Ok']
     });
+    await alert.present();
+
+    this.router.navigate(['/login']);
   }
 
-  showErrors() {
+  async showErrors() {
     const controls = this.registerForm.controls;
     for (const name in controls) {
       if (controls[name].invalid) {
         const control = controls[name];
-        if (control.errors?.['required']) { // Acceso con indexación
-          Swal.fire({
-            title: 'Campo requerido',
-            text: `${this.getFieldLabel(name)} es obligatorio.`,
-            icon: 'error',
-            confirmButtonText: 'Ok'
+        if (control.errors?.['required']) {
+          const alert = await this.alertController.create({
+            header: 'Campo requerido',
+            message: `${this.getFieldLabel(name)} es obligatorio.`,
+            buttons: ['Ok']
           });
-        } else if (control.errors?.['pattern']) { // Acceso con indexación
-          Swal.fire({
-            title: 'Error en el campo',
-            text: `${this.getFieldLabel(name)} no cumple con el formato requerido.`,
-            icon: 'error',
-            confirmButtonText: 'Ok'
+          await alert.present();
+        } else if (control.errors?.['pattern']) {
+          const alert = await this.alertController.create({
+            header: 'Error en el campo',
+            message: `${this.getFieldLabel(name)} no cumple con el formato requerido.`,
+            buttons: ['Ok']
           });
-        } else if (control.errors?.['mismatch']) { // Acceso con indexación
-          Swal.fire({
-            title: 'Error en las contraseñas',
-            text: 'Las contraseñas no coinciden.',
-            icon: 'error',
-            confirmButtonText: 'Ok'
+          await alert.present();
+        } else if (control.errors?.['mismatch']) {
+          const alert = await this.alertController.create({
+            header: 'Error en las contraseñas',
+            message: 'Las contraseñas no coinciden.',
+            buttons: ['Ok']
           });
+          await alert.present();
         }
-        break; // Mostrar solo el primer error encontrado
+        break; 
       }
     }
   }
@@ -84,8 +85,6 @@ export class RegistroPage {
     const labels: { [key: string]: string } = {
       name: 'Nombre',
       surname: 'Apellido',
-      dni: 'DNI',
-      phone: 'Celular',
       email: 'Email',
       password: 'Contraseña',
       confirmPassword: 'Confirmar Contraseña'
