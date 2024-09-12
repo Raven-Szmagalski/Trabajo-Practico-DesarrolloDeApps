@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Importa ReactiveFormsModule
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+
+import { EditPageRoutingModule } from './edit-routing.module';
 import { EditPage } from './edit.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,  // Asegúrate de que ReactiveFormsModule esté aquí
-    IonicModule
+    ReactiveFormsModule,
+    IonicModule,
+    EditPageRoutingModule
   ],
   declarations: [EditPage]
 })

@@ -1,0 +1,14 @@
+.profile-image-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  ion-thumbnail {
+    --size: 140px;
+    --border-radius: 14px;
+  }
+  ion-item {
+    --highlight-color-focused: #3880ff;
+  }
+  

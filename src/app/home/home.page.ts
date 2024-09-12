@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Platform, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -13,28 +14,44 @@ export class HomePage implements OnDestroy {
   public notes: any[] = [];
   public newNoteTitle: string = '';
   public newNoteDescription: string = '';
-  public editingIndex: number | null = null; // Índice de la nota que se está editando
+  public editingIndex: number | null = null; 
 
   constructor(
     private platform: Platform,
     private router: Router,
-    private navCtrl: NavController
+    private authService: AuthService, 
   ) {
-    // Inicializar notas preexistentes
     this.notes = [
-      { title: 'Proyecto', description: 'Video Juego "Fosforito2"', date: new Date('2024-09-11 06:11') },
-      { title: 'Comprar', description: 'Papa, cebolla...', date: new Date('2024-09-10 03:44') },
-      { title: 'Limpiar', description: 'Limpiar la oficina', date: new Date('2024-09-09') },
-      { title: 'Veterinario', description: 'Cita para las gatas, Jueves 18pm', date: new Date('2024-09-09') }
+      {
+        title: 'Proyecto',
+        description: 'Video Juego "Fosforito2"',
+        date: new Date('2024-09-11 06:11'),
+      },
+      {
+        title: 'Comprar',
+        description: 'Papa, cebolla...',
+        date: new Date('2024-09-10 03:44'),
+      },
+      {
+        title: 'Limpiar',
+        description: 'Limpiar la oficina',
+        date: new Date('2024-09-09'),
+      },
+      {
+        title: 'Veterinario',
+        description: 'Cita para las gatas, Jueves 18pm',
+        date: new Date('2024-09-09'),
+      },
     ];
   }
 
   ionViewDidEnter() {
-    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10, () => {
-      if (this.router.url === '/home') {
-        (navigator as any).app.exitApp();
-      }
-    });
+    this.backButtonSubscription =
+      this.platform.backButton.subscribeWithPriority(10, () => {
+        if (this.router.url === '/home') {
+          (navigator as any).app.exitApp();
+        }
+      });
   }
 
   ionViewWillLeave() {
@@ -50,7 +67,8 @@ export class HomePage implements OnDestroy {
   }
 
   openSettings() {
-    this.navCtrl.navigateForward('/edit');
+    console.log('Navigating to Edit Page');
+    this.router.navigate(['/edit']);
   }
 
   addNote() {
@@ -74,17 +92,20 @@ export class HomePage implements OnDestroy {
   }
 
   editNote(index: number) {
-    // Inicia la edición de la nota en el índice dado
     this.editingIndex = index;
   }
 
   saveNote(index: number) {
-    // Guarda los cambios de la nota editada y cierra el modo de edición
     this.editingIndex = null;
   }
 
   cancelEdit() {
-    // Cancela la edición
     this.editingIndex = null;
   }
+  
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+  
 }

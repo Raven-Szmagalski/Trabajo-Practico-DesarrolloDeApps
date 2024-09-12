@@ -24,6 +24,10 @@ export class LoginPage {
     });
   }
 
+  // Utilizamos ionViewWillEnter para limpiar el formulario antes de que la página sea visible
+  ionViewWillEnter() {
+    this.loginForm.reset();
+  }
   redirectToRegister() {
     this.router.navigate(['/registro']);
   }
@@ -66,7 +70,7 @@ export class LoginPage {
           });
           await alert.present();
         }
-        break; 
+        break;
       }
     }
   }

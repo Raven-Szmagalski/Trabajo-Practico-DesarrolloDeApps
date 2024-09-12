@@ -2,11 +2,15 @@
   <ion-toolbar>
     <ion-item>
       <ion-avatar aria-hidden="true" slot="start">
-        <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        <img alt="Profile Image" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
       <ion-label>Homer</ion-label>
     </ion-item>
+    <!-- Botones en el header -->
     <ion-buttons slot="end">
+      <ion-button (click)="logout()" size="small">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
       <ion-button (click)="openSettings()" size="small">
         <ion-icon slot="icon-only" ios="logo-apple" md="settings-sharp"></ion-icon>
       </ion-button>

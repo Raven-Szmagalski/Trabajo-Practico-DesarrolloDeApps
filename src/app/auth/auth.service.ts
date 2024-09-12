@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly validEmail = 'user@example.com'; 
-  private readonly validPassword = 'password123'; 
+  private readonly validEmail = 'user@example.com';
+  private readonly validPassword = 'password123';
 
   private isUserAuthenticated = false;
 
@@ -17,8 +17,9 @@ export class AuthService {
     if (isAuthenticated) {
       this.isUserAuthenticated = true;
     }
-    return of(isAuthenticated); 
+    return of(isAuthenticated);
   }
+
   isAuthenticated(): Observable<boolean> {
     return of(this.isUserAuthenticated);
   }
@@ -26,4 +27,6 @@ export class AuthService {
   logout(): void {
     this.isUserAuthenticated = false;
   }
+
+  
 }

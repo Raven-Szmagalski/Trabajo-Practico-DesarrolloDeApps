@@ -1,47 +1,59 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { NavController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.page.html',
   styleUrls: ['./edit.page.scss'],
 })
-export class EditPage implements OnInit {
-  registerForm: FormGroup;
-  isEditing = false;
+export class EditPage {
+  // Datos preestablecidos del perfil
+  profileData = {
+    fullName: 'Juan Pérez',
+    email: 'juan.perez@example.com',
+    phoneNumber: '123-456-7890',
+  };
 
-  constructor(private fb: FormBuilder) {
-    this.registerForm = this.fb.group({
-      name: ['Fernando', Validators.required],
-      surname: ['Gómez', Validators.required],
-      dni: ['12345678', [Validators.required, Validators.pattern('^\\d{8}$')]],
-      phone: ['0112345678', [Validators.required, Validators.pattern('^\\d{10}$')]],
-      email: ['ejemplo@correo.com', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
-    }, { validator: this.passwordMatchValidator });
-  }
+  // Contraseñas
+  currentPassword = '';
+  newPassword = '';
+  defaultPassword = 'password123'; // Contraseña preestablecida
 
-  ngOnInit() {}
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController) {}
 
-  onSubmit() {
-    if (this.registerForm.valid) {
-      console.log(this.registerForm.value);
+
+  // Guardar los cambios del perfil
+  async onSave() {
+    if (this.currentPassword !== this.defaultPassword) {
+      const alert = await this.alertCtrl.create({
+        header: 'Error',
+        message: 'La contraseña actual es incorrecta.',
+        buttons: ['OK']
+      });
+      await alert.present();
+      return;
     }
-  }
 
-  passwordMatchValidator(formGroup: FormGroup) {
-    const password = formGroup.get('password')?.value;
-    const confirmPassword = formGroup.get('confirmPassword')?.value;
-    if (password !== confirmPassword) {
-      formGroup.get('confirmPassword')?.setErrors({ mismatch: true });
-    } else {
-      formGroup.get('confirmPassword')?.setErrors(null);
+    if (this.newPassword) {
+      this.defaultPassword = this.newPassword; // Actualiza la contraseña si se proporciona una nueva
     }
-    return null;
+
+    // Simular guardado de datos
+    console.log('Perfil guardado:', this.profileData);
+    
+    const alert = await this.alertCtrl.create({
+      header: 'Éxito',
+      message: 'Los cambios han sido guardados.',
+      buttons: ['OK']
+    });
+    await alert.present();
+
+    // Regresa a la vista anterior (perfil)
+    this.navCtrl.navigateBack('/home');
   }
 
-  toggleEdit() {
-    this.isEditing = !this.isEditing;
+  // Cancelar y volver al perfil sin guardar cambios
+  onCancel() {
+    this.navCtrl.back();
   }
 }
