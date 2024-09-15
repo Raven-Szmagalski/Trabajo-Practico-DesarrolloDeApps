@@ -14,14 +14,14 @@ describe('AuthService', () => {
   });
 
   it('should return true for valid credentials', (done: DoneFn) => {
-    service.authenticate('user@example.com', 'password123').subscribe(isAuthenticated => {
+    service.authenticate('uner@gmail.com', 'password123').subscribe(isAuthenticated => {
       expect(isAuthenticated).toBeTrue();
       done();
     });
   });
 
   it('should return false for invalid credentials', (done: DoneFn) => {
-    service.authenticate('invalid@example.com', 'wrongpassword').subscribe(isAuthenticated => {
+    service.authenticate('invalid@gmail.com', 'wrongpassword').subscribe(isAuthenticated => {
       expect(isAuthenticated).toBeFalse();
       done();
     });

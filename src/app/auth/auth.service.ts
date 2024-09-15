@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly validEmail = 'user@example.com';
+  private readonly validEmail = 'uner@gmail.com';
   private readonly validPassword = 'password123';
 
   private isUserAuthenticated = false;

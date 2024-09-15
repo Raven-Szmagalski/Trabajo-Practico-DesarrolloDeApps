@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Platform, NavController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
@@ -45,6 +45,7 @@ export class HomePage implements OnDestroy {
     ];
   }
 
+
   ionViewDidEnter() {
     this.backButtonSubscription =
       this.platform.backButton.subscribeWithPriority(10, () => {
@@ -66,10 +67,7 @@ export class HomePage implements OnDestroy {
     }
   }
 
-  openSettings() {
-    console.log('Navigating to Edit Page');
-    this.router.navigate(['/edit']);
-  }
+
 
   addNote() {
     if (this.newNoteTitle.trim() && this.newNoteDescription.trim()) {
@@ -79,7 +77,9 @@ export class HomePage implements OnDestroy {
         date: new Date(),
       };
       this.notes.push(newNote);
-
+  
+      this.notes.sort((a, b) => b.date.getTime() - a.date.getTime());
+  
       this.newNoteTitle = '';
       this.newNoteDescription = '';
     } else {

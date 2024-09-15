@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular'; // Importa AlertController
+import { AlertController } from '@ionic/angular'; 
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -17,7 +17,6 @@ export class RegistroPage {
     private formBuilder: FormBuilder, 
     private router: Router,
     private alertController: AlertController,
-    // Inyecta AlertController
   ) {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],

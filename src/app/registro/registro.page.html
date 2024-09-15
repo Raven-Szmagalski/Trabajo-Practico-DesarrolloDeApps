@@ -4,29 +4,37 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <br>
-    <ion-input label="Nombre" label-placement="floating" fill="outline" type="name" placeholder="Ingrese su Nombre"
-      formControlName="name">
-    </ion-input>
-    <br>
-    <ion-input label="Apellido" label-placement="floating" fill="outline" type="surname"
-      placeholder="Ingrese su Apellido" formControlName="surname">
-    </ion-input>
-    <br>
-    <ion-input label="Email" label-placement="floating" fill="outline" type="email" placeholder="Ingrese su Email"
-      formControlName="email">
-    </ion-input>
-    <br>
-    <ion-input label="Contraseña" label-placement="floating" fill="outline" type="password"
-      placeholder="Ingrese su Contraseña" formControlName="password">
-    </ion-input>
-    <br>
-    <ion-input label="Confirmar Contraseña" label-placement="floating" fill="outline" type="password"
-      placeholder="Confirme su Contraseña" formControlName="confirmPassword">
-    </ion-input>
-    <br>
-    <ion-button expand="full" type="submit">Crear Cuenta</ion-button>
-  </form>
+<ion-content class="ion-padding" >
+  <ion-card >
+
+    <ion-card-content>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="ion-padding">
+
+          <ion-input label="Nombre" label-placement="floating" fill="outline" type="name" placeholder="Ingrese su Nombre"
+            formControlName="name">
+          </ion-input>
+
+          <ion-input label="Apellido" label-placement="floating" fill="outline" type="surname"
+            placeholder="Ingrese su Apellido" formControlName="surname">
+          </ion-input>
+
+          <ion-input label="Email" label-placement="floating" fill="outline" type="email" placeholder="Ingrese su Email"
+            formControlName="email">
+          </ion-input>
+          <ion-input label="Contraseña" label-placement="floating" fill="outline" type="password"
+            placeholder="Ingrese su Contraseña" formControlName="password">
+          </ion-input>
+          <ion-input label="Confirmar Contraseña" label-placement="floating" fill="outline" type="password"
+            placeholder="Confirme su Contraseña" formControlName="confirmPassword">
+          </ion-input>
+        </div>
+    
+        <div class="button-container">
+          <ion-button expand="full" type="submit">Crear Cuenta</ion-button>
+        </div>
+      </form>
+    </ion-card-content>
+    </ion-card>
+
 </ion-content>

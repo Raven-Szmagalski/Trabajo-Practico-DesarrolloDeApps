@@ -1,25 +1,47 @@
 <ion-header>
   <ion-toolbar>
-    <ion-item>
-      <ion-avatar aria-hidden="true" slot="start">
-        <img alt="Profile Image" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-avatar>
-      <ion-label>Homer</ion-label>
-    </ion-item>
-    <!-- Botones en el header -->
     <ion-buttons slot="end">
-      <ion-button (click)="logout()" size="small">
-        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="openSettings()" size="small">
-        <ion-icon slot="icon-only" ios="logo-apple" md="settings-sharp"></ion-icon>
-      </ion-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
+    <ion-item class="custom-title">
+      <ion-avatar aria-hidden="true" slot="start">
+        <img alt="Profile Image" src="https://i.pinimg.com/564x/42/fc/0b/42fc0b765d1c884b7b62e1758949da41.jpg" />
+      </ion-avatar>
+      <ion-title>Bruno</ion-title>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="light">
-  <!-- Formulario para añadir una nueva nota -->
+<ion-menu side="end" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <ion-item routerLink="/home">
+        <ion-icon name="home"></ion-icon>
+        Home
+      </ion-item>
+
+      <ion-item routerLink="/edit">
+        <ion-icon name="settings"></ion-icon>
+        Ajustes
+      </ion-item>
+
+      <ion-item routerLink="/login" (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+        Cerrar sesión
+      </ion-item>
+
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+
+<ion-content id="main-content" color="light">
   <ion-card>
     <ion-card-header>
       <ion-card-title>Añadir Nueva Nota</ion-card-title>
@@ -35,37 +57,35 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Lista de notas existentes -->
   <ion-list [inset]="true">
     <ion-item *ngFor="let note of notes; let i = index">
-      <!-- Si está en modo edición, mostrar campos de entrada -->
       <ion-label *ngIf="editingIndex !== i">
         <h2>{{ note.title }}</h2>
         <p>{{ note.description }}</p>
         <ion-note color="medium">{{ note.date | date:'short' }}</ion-note>
       </ion-label>
 
-      <!-- Mostrar campos de entrada si se está editando -->
       <ion-item *ngIf="editingIndex === i">
         <ion-input [(ngModel)]="note.title" placeholder="Editar Título"></ion-input>
         <ion-input [(ngModel)]="note.description" placeholder="Editar Descripción"></ion-input>
       </ion-item>
 
       <ion-buttons slot="end">
-        <!-- Botones de acción según si se está editando o no -->
         <ion-button *ngIf="editingIndex !== i" color="primary" (click)="editNote(i)">
-          <ion-icon name="create-outline"></ion-icon>
+          <ion-icon slot="icon-only" name="create"></ion-icon>
         </ion-button>
         <ion-button *ngIf="editingIndex === i" color="success" (click)="saveNote(i)">
-          <ion-icon name="checkmark-outline"></ion-icon>
+          <ion-icon slot="icon-only" name="checkmark"></ion-icon>
         </ion-button>
         <ion-button *ngIf="editingIndex === i" color="medium" (click)="cancelEdit()">
-          <ion-icon name="close-outline"></ion-icon>
+          <ion-icon slot="icon-only" name="close"></ion-icon>
         </ion-button>
         <ion-button color="danger" (click)="deleteNote(i)">
-          <ion-icon name="trash-outline"></ion-icon>
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
         </ion-button>
       </ion-buttons>
+
+
     </ion-item>
   </ion-list>
 </ion-content>

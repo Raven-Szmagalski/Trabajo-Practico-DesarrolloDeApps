@@ -24,10 +24,10 @@ export class LoginPage {
     });
   }
 
-  // Utilizamos ionViewWillEnter para limpiar el formulario antes de que la página sea visible
   ionViewWillEnter() {
     this.loginForm.reset();
   }
+
   redirectToRegister() {
     this.router.navigate(['/registro']);
   }
@@ -41,13 +41,15 @@ export class LoginPage {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
 
-    this.authService.authenticate(email, password).subscribe(isAuthenticated => {
-      if (isAuthenticated) {
-        this.router.navigate(['/home']);
-      } else {
-        this.showAuthError();
-      }
-    });
+    this.authService
+      .authenticate(email, password)
+      .subscribe((isAuthenticated) => {
+        if (isAuthenticated) {
+          this.router.navigate(['/home']);
+        } else {
+          this.showAuthError();
+        }
+      });
   }
 
   async showErrors() {
@@ -59,14 +61,16 @@ export class LoginPage {
           const alert = await this.alertController.create({
             header: 'Campo requerido',
             message: `${this.getFieldLabel(name)} es obligatorio.`,
-            buttons: ['Ok']
+            buttons: ['Ok'],
           });
           await alert.present();
         } else if (control.errors?.['email']) {
           const alert = await this.alertController.create({
             header: 'Error en el campo',
-            message: `${this.getFieldLabel(name)} debe ser un correo electrónico válido.`,
-            buttons: ['Ok']
+            message: `${this.getFieldLabel(
+              name
+            )} debe ser un correo electrónico válido.`,
+            buttons: ['Ok'],
           });
           await alert.present();
         }
@@ -79,7 +83,7 @@ export class LoginPage {
     const alert = await this.alertController.create({
       header: 'Error de autenticación',
       message: 'El correo electrónico o la contraseña son incorrectos.',
-      buttons: ['Ok']
+      buttons: ['Ok'],
     });
     await alert.present();
   }
@@ -87,7 +91,7 @@ export class LoginPage {
   getFieldLabel(name: string): string {
     const labels: { [key: string]: string } = {
       email: 'Email',
-      password: 'Contraseña'
+      password: 'Contraseña',
     };
     return labels[name] || name;
   }

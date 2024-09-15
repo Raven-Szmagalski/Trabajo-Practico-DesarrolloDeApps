@@ -11,7 +11,7 @@ describe('AuthGuard', () => {
 
   beforeEach(() => {
     const authServiceStub = {
-      authenticate: (email: string, password: string) => of(true) // Simula autenticación exitosa
+      authenticate: (email: string, password: string) => of(true)
     };
 
     const routerStub = {
@@ -44,7 +44,6 @@ describe('AuthGuard', () => {
   });
 
   it('should redirect to login if user is not authenticated', (done: DoneFn) => {
-    // Modifica el stub para simular que el usuario no está autenticado
     (authService.authenticate as jasmine.Spy).and.returnValue(of(false));
 
     guard.canActivate().subscribe(result => {

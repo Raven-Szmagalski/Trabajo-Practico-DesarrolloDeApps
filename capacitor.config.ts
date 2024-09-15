@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.listoche.ionicSplashApp',
-  appName: 'ListoChe',
+  appName: 'ListoChe!',
   webDir: 'www',
   bundledWebRuntime: false,
   plugins: {

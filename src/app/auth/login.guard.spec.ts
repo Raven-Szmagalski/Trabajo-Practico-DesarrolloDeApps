@@ -11,7 +11,7 @@ describe('LoginGuard', () => {
 
   beforeEach(() => {
     const authServiceStub = {
-      isAuthenticated: () => of(true) // Simula que el usuario está autenticado
+      isAuthenticated: () => of(true) 
     };
 
     const routerStub = {
@@ -26,7 +26,7 @@ describe('LoginGuard', () => {
       ]
     });
 
-    guard = TestBed.inject(LoginGuard); // Inyecta la instancia del guard
+    guard = TestBed.inject(LoginGuard); 
     authService = TestBed.inject(AuthService);
     router = TestBed.inject(Router);
   });
@@ -36,7 +36,7 @@ describe('LoginGuard', () => {
   });
 
   it('should redirect to home if user is authenticated', (done: DoneFn) => {
-    (authService.isAuthenticated as jasmine.Spy).and.returnValue(of(true)); // Simula que el usuario está autenticado
+    (authService.isAuthenticated as jasmine.Spy).and.returnValue(of(true)); 
 
     guard.canActivate().subscribe(result => {
       expect(result).toBeFalse();
@@ -46,7 +46,7 @@ describe('LoginGuard', () => {
   });
 
   it('should allow access if user is not authenticated', (done: DoneFn) => {
-    (authService.isAuthenticated as jasmine.Spy).and.returnValue(of(false)); // Simula que el usuario no está autenticado
+    (authService.isAuthenticated as jasmine.Spy).and.returnValue(of(false));
 
     guard.canActivate().subscribe(result => {
       expect(result).toBeTrue();

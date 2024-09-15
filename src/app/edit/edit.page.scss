@@ -1,14 +1,42 @@
 .profile-image-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+ion-thumbnail {
+  --size: 140px;
+  --border-radius: 14px;
+}
+
+ion-item {
+  --highlight-color-focused: #3880ff;
+}
+
+ion-header {
+
+  ion-title {
+    color: #f6f2f2;
+
   }
-  
-  ion-thumbnail {
-    --size: 140px;
-    --border-radius: 14px;
+
+  ion-buttons {
+    color: #f6f2f2;
+    margin-top: 4px;
+
   }
-  ion-item {
-    --highlight-color-focused: #3880ff;
-  }
-  
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 4px;
+
+}
+
+ion-button {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 10px;
+}
